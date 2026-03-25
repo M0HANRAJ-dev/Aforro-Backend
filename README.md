@@ -173,6 +173,13 @@ Generates:
 
 ---
 
+## Key Design Decisions
+
+- Used transaction.atomic() to ensure order consistency
+- Used select_for_update() to prevent race conditions
+- Used Redis caching for search optimization
+- Used Celery for async processing
+
 ## Author
 
 Mohanraj
