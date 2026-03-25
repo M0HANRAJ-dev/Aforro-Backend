@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from faker import Faker
 import random
-from product.models import Category, Product
+from products.models import Category, Product
 from stores.models import Store, Inventory
 
 fake = Faker()
@@ -39,11 +39,11 @@ class Command(BaseCommand):
                 name=fake.company(),
                 location=fake.city()
             )
-            stores.append(store)
+            Stores.append(store)
 
         self.stdout.write("Stores created")
 
-        for store in stores:
+        for store in Stores:
             selected_products = random.sample(products, 300)
 
             for product in selected_products:

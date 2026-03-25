@@ -9,7 +9,12 @@ class Order(models.Model):
         REJECTED = 'REJECTED'
 
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='orders')
-    Status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING)
+    status = models.CharField(
+        max_length=10, 
+        choices=Status.choices, 
+        default=Status.PENDING
+    )
+    
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

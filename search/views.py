@@ -28,7 +28,7 @@ class ProductSearchAPIView(APIView):
         products = Product.objects.all().select_related('category')
 
         if query:
-            products = product.filter(
+            products = Product.objects.filter(
                 Q(title__icontains=query) |
                 Q(description__icontains=query) |
                 Q(category__name__icontains=query)
@@ -59,7 +59,7 @@ class ProductSearchAPIView(APIView):
         page = int(request.GET.get("page", 1))
         page_size = int(request.GET.get('page_size', 10))
         
-        paginator = Paginator(product, page_size)
+        paginator = Paginator(products, page_size)
         page_obj = paginator.get_page(page)
 
         data = []

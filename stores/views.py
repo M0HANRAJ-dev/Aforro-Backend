@@ -14,7 +14,7 @@ class StoreInventoryAPIView(APIView):
             Inventory.objects
             .filter(store=store)
             .select_related('product', 'product__category')
-            .order_by('product_title')
+            .order_by('product__title')
         )
         data = []
         for item in inventory:
