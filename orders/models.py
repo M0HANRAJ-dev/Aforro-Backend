@@ -23,7 +23,7 @@ class Order(models.Model):
         ]
 
     def __str__(self):
-        return f"order {self.id} - {self.Status}"
+        return f"order {self.id} - {self.status}"
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')

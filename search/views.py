@@ -62,6 +62,13 @@ class ProductSearchAPIView(APIView):
         paginator = Paginator(products, page_size)
         page_obj = paginator.get_page(page)
 
+        if store_id:
+            inventory_qs = Inventory.objects.filter(
+                store_id=store_id,
+                product__in=page_obj
+            )
+            inventory_map = {inv.product_id: inv.quantity for inv in inventory_qs}
+
         data = []
         for product in page_obj:
             item = {
@@ -72,25 +79,20 @@ class ProductSearchAPIView(APIView):
             }
 
             if store_id:
-                inventory = Inventory.objects.filter(
-                    store_id=store_id,
-                    product=product
-                ).first()
-
-                item["quantity"] = inventory.quantity if inventory else 0
+                item["quantity"] = inventory_map.get(product.id, 0)
 
             data.append(item)
 
-        return Response({
+        response_data = {
             'total': paginator.count,
             'page': page,
             'page_size': page_size,
             'results': data
-        })
+        }
 
-        cache.set(cache_key, response_date, timeout=60*5)
+        # cache.set(cache_key, response_data, timeout=60*5)
 
-        return Response(response_date)
+        return Response(response_data)
 
 class ProductSuggestAPIView(APIView):
     def get(self, request):
@@ -98,7 +100,7 @@ class ProductSuggestAPIView(APIView):
         
         if len(q) < 3:
             return Response({
-                "error": "Minimum 3 charecters required"
+                "error": "Minimum 3 characters required"
             }, status=400)
 
         prefix_matches = Product.objects.filter(

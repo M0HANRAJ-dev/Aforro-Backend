@@ -20,3 +20,13 @@ class SearchTestCase(TestCase):
         
         self.assertEqual(response.status_code, 200)
         self.assertTrue(len(response.data["results"]) > 0)
+
+    def test_suggest_min_chars(self):
+        response = self.client.get("/api/search/suggest/?q=ip")
+        self.assertEqual(response.status_code, 400)
+
+    def test_suggest_results(self):
+        response = self.client.get("/api/search/suggest/?q=iPh")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("iPhone", response.data["suggestions"])
+
