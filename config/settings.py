@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-e6jh6olj8!u!-332d*wk2v$e=hij*8^eivj1lewk^u80o-((g#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -103,6 +103,11 @@ CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
+import sys
+
+if 'test' in sys.argv:
+    CELERY_TASK_ALWAYS_EAGER = True
+    
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 

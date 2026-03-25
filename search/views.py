@@ -90,7 +90,7 @@ class ProductSearchAPIView(APIView):
             'results': data
         }
 
-        # cache.set(cache_key, response_data, timeout=60*5)
+        cache.set(cache_key, response_data, timeout=60*5)
 
         return Response(response_data)
 
