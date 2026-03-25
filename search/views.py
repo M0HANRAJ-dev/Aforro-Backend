@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q
 from django.core.paginator import Paginator
-from product.models import Product
-from Stores.models import Inventory
+from products.models import Product
+from stores.models import Inventory
 from django.core.cache import cache
 import hashlib
 

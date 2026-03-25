@@ -3,11 +3,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.db import transaction
 from .models import Order, OrderItem
-from store.models import Store, Inventory
-from product.models import Product
+from stores.models import Store, Inventory
+from products.models import Product
 from rest_framework.views import APIView
 from django.db.models import Count
-from Stores.models import Store
 from .tasks import send_order_confirmation
 
 class CreateOrderAPIView(APIView):
@@ -79,7 +78,7 @@ class CreateOrderAPIView(APIView):
                 "status": order.status
             }, status=201)
 
-class StoreOrderAPIView(APIView):
+class StoreOrdersAPIView(APIView):
     def get(self, request, store_id):
         try:
             store = Store.objects.get(id=store_id)
